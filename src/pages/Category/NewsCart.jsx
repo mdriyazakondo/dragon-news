@@ -74,15 +74,17 @@ const NewsCart = ({ category }) => {
 
       {/* Footer: rating & views */}
       <div className="flex items-center justify-between border-t pt-3">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center text-orange-500">
-            {[...Array(5)].map((_, i) => (
-              <FaStar key={i} />
-            ))}
+        <div className="flex items-center justify-between pt-3">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center text-orange-500">
+              {Array.from({ length: rating?.number || 0 }).map((_, i) => (
+                <FaStar key={i} />
+              ))}
+            </div>
+            <span className="text-sm font-medium text-gray-700">
+              {rating?.number}
+            </span>
           </div>
-          <span className="text-sm font-medium text-gray-700">
-            {rating?.number ?? 0}
-          </span>
         </div>
 
         <div className="flex items-center gap-2 text-gray-600">
