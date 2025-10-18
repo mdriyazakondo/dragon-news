@@ -23,7 +23,6 @@ const Category = () => {
     }
   }, [data, id]);
 
-  console.log(categoryData, id);
   return (
     <div>
       <h3 className="text-xl font-semibold  mb-4">

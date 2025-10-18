@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../../context/AuthProvider";
 
 const Login = () => {
+  const { singInUser } = useContext(AuthContext);
+
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     const newUser = { email, password };
+    singInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => console.log(err.message));
     console.log(newUser);
   };
+
   return (
     <div className="flex items-center justify-center min-h-[90vh] max-w-2xl mx-auto">
       <div className="flex items-center justify-center max-w-2xl mx-auto w-full flex-col my-20 shadow p-6 rounded-md ">

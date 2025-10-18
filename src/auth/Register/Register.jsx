@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../../context/AuthProvider";
+import { LuEye } from "react-icons/lu";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
+  const { signUpUser, loading } = useContext(AuthContext);
+  const [isShow, setIsShow] = useState(false);
+
   const handleSignUp = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
-    const photo = e.target.photo.value;
+    const photoURL = e.target.photoURL.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
-    const newUser = { name, photo, email, password };
-    console.log(newUser);
+    const newUser = { name, photoURL, email, password };
+    signUpUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        updateProfile(user, {
+          displayName: name,
+          photoURL: photoURL,
+        });
+      })
+      .catch((err) => console.log(err.message));
   };
+
   return (
     <div className="flex items-center justify-center max-w-2xl mx-auto min-h-[80vh]">
       <div className="flex items-center justify-center max-w-2xl mx-auto w-full flex-col my-20 shadow p-6 rounded-md">
@@ -36,7 +53,7 @@ const Register = () => {
               <p className="text-gray-600 font-semibold">Photo Url</p>
               <input
                 type="url"
-                name="photo"
+                name="photoURL"
                 placeholder="Photo Url"
                 required
                 className="w-full py-2 pl-4 border border-gray-400 rounded-md outline-none mt-2"
@@ -54,13 +71,26 @@ const Register = () => {
             </div>
             <div>
               <p className="text-gray-600 font-semibold">Your Password</p>
-              <input
-                type="password"
-                name="password"
-                placeholder="Your Password"
-                required
-                className="w-full py-2 pl-4 border border-gray-400 rounded-md outline-none mt-2"
-              />
+              <div className="relative ">
+                <input
+                  type={`${isShow ? "text" : "password"}`}
+                  name="password"
+                  placeholder="Your Password"
+                  required
+                  className="w-full py-2 pl-4 border border-gray-400 rounded-md outline-none mt-2"
+                />
+                <button
+                  onClick={() => setIsShow(!isShow)}
+                  type="button"
+                  className="absolute right-4 top-1/2 -translate-2"
+                >
+                  {isShow ? (
+                    <LuEye className="w-6 h-6 text-gray-600 cursor-pointer" />
+                  ) : (
+                    <FaRegEyeSlash className="w-6 h-6 text-gray-600 cursor-pointer" />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="flex items-center gap-2 text-gray-600 font-semibold">
               <input type="checkbox" name="term" required />

@@ -10,6 +10,7 @@ import AuthLayout from "../layout/AuthLayout";
 export const router = createBrowserRouter([
   {
     path: "/",
+    hydrateFallbackElement: <div>Loading...</div>,
     element: <HomeLayout />,
     children: [
       {
