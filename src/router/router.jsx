@@ -6,6 +6,8 @@ import Category from "../pages/Category/Category";
 import Login from "../auth/Login/Login";
 import Register from "../auth/Register/Register";
 import AuthLayout from "../layout/AuthLayout";
+import NewsDetails from "../pages/NewsDetails/NewsDetails";
+import PraiviteRoute from "../PraiviteRoute/PraiviteRoute";
 
 export const router = createBrowserRouter([
   {
@@ -39,8 +41,13 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/news",
-    element: <h4>News</h4>,
+    path: "/news-details/:id",
+    element: (
+      <PraiviteRoute>
+        <NewsDetails />
+      </PraiviteRoute>
+    ),
+    loader: () => fetch("/demo-data/news.json"),
   },
   {
     path: "*",

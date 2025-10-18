@@ -1,10 +1,19 @@
 import React from "react";
 import { CiBookmark } from "react-icons/ci";
 import { FaStar, FaRegEye, FaShareAlt } from "react-icons/fa";
+import { Link } from "react-router";
 
 const NewsCart = ({ category }) => {
-  const { title, rating, total_view, author, thumbnail_url, details, tags } =
-    category;
+  const {
+    id,
+    title,
+    rating,
+    total_view,
+    author,
+    thumbnail_url,
+    details,
+    tags,
+  } = category;
 
   // Format ISO date to readable form (e.g., Apr 22, 2025)
   const formattedDate = new Date(author.published_date).toLocaleDateString();
@@ -48,9 +57,12 @@ const NewsCart = ({ category }) => {
         {details?.length > 220 ? (
           <>
             {details.slice(0, 220)}...{" "}
-            <span className="text-orange-500 font-semibold cursor-pointer hover:underline">
+            <Link
+              to={`/news-details/${id}`}
+              className="text-orange-500 font-semibold cursor-pointer hover:underline"
+            >
               Read More
-            </span>
+            </Link>
           </>
         ) : (
           details

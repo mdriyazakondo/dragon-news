@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthProvider";
 
 const Login = () => {
   const { singInUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const locaton = useLocation();
+  const currentPath = locaton.state?.from.pathname || "/";
 
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -13,6 +16,7 @@ const Login = () => {
     singInUser(email, password)
       .then((result) => {
         console.log(result.user);
+        navigate(currentPath, { replace: true });
       })
       .catch((err) => console.log(err.message));
     console.log(newUser);
@@ -53,7 +57,7 @@ const Login = () => {
               type="submit"
               className="py-2 w-full bg-gray-700 text-white font-semibold cursor-pointer rounded-sm"
             >
-              Register
+              Login
             </button>
           </form>
           <p className="mt-4 text-gray-600 font-medium text-center">

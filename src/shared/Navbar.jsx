@@ -4,18 +4,20 @@ import defaultUserImg from "../assets/user.png";
 import { AuthContext } from "../context/AuthProvider";
 
 const Navbar = () => {
-  const { user, logoutUser } = useContext(AuthContext);
+  const { user, logoutUser, setLoading } = useContext(AuthContext);
   const handleLogout = () => {
     logoutUser()
       .then((result) => {
-        console.log(result);
+        alert("user log out");
       })
       .catch((err) => console.log(err.message));
   };
 
   return (
     <div className="flex items-center justify-between py-4 px-8 ">
-      <div className="text-2xl font-bold text-primary"></div>
+      <div className="text-xl font-semibold text-gray-600">
+        {user && user.email}
+      </div>
 
       <div className="flex items-center gap-6 text-accent font-medium">
         <NavLink

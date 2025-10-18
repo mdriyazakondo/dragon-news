@@ -2,16 +2,35 @@ import React, { useContext } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../context/AuthProvider";
+import { useLocation, useNavigate } from "react-router";
 
 const SocialLogin = () => {
-  const { signInWithGoogle } = useContext(AuthContext);
+  const { signInWithGoogle, signInWithGithub } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.state || "/";
+
+  //handleSignInWithGoogle
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
       .then((result) => {
         console.log(result.user);
+        navigate(currentPath);
       })
       .catch((err) => console.log(err.message));
   };
+
+  // handleLoginWithGithub
+  const handleLoginWithGithub = () => {
+    signInWithGithub()
+      .then((result) => {
+        console.log(result.user);
+        navigate(currentPath || "/"); // fallback to home
+      })
+      .catch((err) => console.error("Github login error:", err.message));
+  };
+
   return (
     <div>
       <h3 className="font-bold text-xl ">Login With</h3>
@@ -22,7 +41,10 @@ const SocialLogin = () => {
         >
           <FcGoogle size={24} /> Google
         </button>
-        <button className="w-full cursor-pointer border border-gray-400  bg-base-200 text-gray-600 px-6 py-2 rounded-md font-semibold flex items-center gap-2 justify-center hover:bg-gray-700 hover:text-white transition-all duration-300">
+        <button
+          onClick={handleLoginWithGithub}
+          className="w-full cursor-pointer border border-gray-400  bg-base-200 text-gray-600 px-6 py-2 rounded-md font-semibold flex items-center gap-2 justify-center hover:bg-gray-700 hover:text-white transition-all duration-300"
+        >
           <FaGithub size={24} /> Github
         </button>
       </div>
